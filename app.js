@@ -10,6 +10,7 @@ var routes = require('./routes/index');
 var authenticate = require('./routes/authenticate');
 var register = require('./routes/register');
 var test = require('./routes/api/test');
+var jsonwebtoken = require('jsonwebtoken');
 
 
 
@@ -28,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Sets up protection for all /api routes, using json web tokens
-app.use('/api/*', expressJwt({secret: 'supersecret'}));
+app.use('/api/*',expressJwt({secret: 'supersecret'}));
 
 // Handles unauthorized errors when express-jwt doesn't find a token
 app.use(function (err, req, res, next) {
