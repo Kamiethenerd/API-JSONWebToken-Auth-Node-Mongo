@@ -1,0 +1,31 @@
+extends layout
+block content
+   form.form-horizontal(role='form' id='events' action="/events" method="post")
+      legend
+         h1 Add a Networking Event!
+         .form-group
+            label.control-label.col-sm-2(for="eventName") Event Name:
+            .col-sm-10
+               input.form-control(type='text' name="eventName" id="eventName" placeholder='Enter Event Name' require="true")
+         .form-group
+            label.control-label.col-sm-2(for="eventDes") Event Description:
+            .col-sm-10
+               input.form-control(type='text' name="eventDes" id="eventDes" placeholder='Enter Event Description Here')
+         .form-group
+            label.control-label.col-sm-2(for="location") Location:
+            .col-sm-10
+               input.form-control(type='text' name="location" id="location" placeholder='Enter Location')
+         .form-group
+            label.control-label.col-sm-2(for="date") Date:
+            .col-sm-10
+               input.form-control(type='date' name="date" id="date" placeholder='Enter Date')
+         .form-group
+            label.control-label.col-sm-2(for="time") Time:
+            .col-sm-10
+               input.form-control(type='time' name="time" id="time" placeholder='Enter Event Time Here')
+         .form-group
+            button.btn.btn-primary(type='submit') Submit
+            a(href='/')
+               button.btn.btn-default(type="button") Cancel
+         p#error.error
+

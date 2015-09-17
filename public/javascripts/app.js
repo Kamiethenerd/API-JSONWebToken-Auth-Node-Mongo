@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     $loginForm = $('#login');
     $testDiv = $('#test');
+    $eventList = $('#events');
     $registerForm = $('#register');
     $error = $('#error');
     $content = $('#content');
@@ -61,6 +62,24 @@ function bindEvents() {
     // set up the API test
     $testDiv.on('click', function (e) {
         $.ajax('/api/test', {
+            method: 'get'
+        }).done(function (data, textStatus, jqXHR) {
+
+            // on a success, put the secret into content area
+            $content.text(data);
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+
+            // on a failure, put that in the content area
+            $content.text(jqXHR.responseText);
+
+        }).always(function () {
+            console.log("complete");
+        });
+    });
+
+    $eventList.on('click', function (e) {
+        $.ajax('/api/events', {
             method: 'get'
         }).done(function (data, textStatus, jqXHR) {
 
