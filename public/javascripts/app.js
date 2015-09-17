@@ -110,6 +110,8 @@ function bindEvents() {
             data: data
         }).done(function (data, textStatus, jqXHR) {
 
+            console.log(data.token, data.user);
+
             // Save the JWT token
             localStorage.setItem('userToken', data.token);
             // Set the user
