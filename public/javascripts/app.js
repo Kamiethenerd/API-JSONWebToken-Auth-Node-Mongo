@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     $loginForm = $('#login');
     $testDiv = $('#test');
-    $eventList = $('#events');
+    $events = $('#eventForm');
     $registerForm = $('#register');
     $error = $('#error');
     $content = $('#content');
@@ -28,9 +28,14 @@ function showUser() {
     if (localStorage.getItem('userProfile')) {
         var user = JSON.parse(localStorage.getItem('userProfile'));
         $loginForm.hide();
+        showForm();
         $user.text('You are currently logged in as ' + user.username);
         $content.text('');
     }
+}
+
+function showForm() {
+    $events.show()
 }
 
 function hideUser() {
@@ -78,23 +83,6 @@ function bindEvents() {
         });
     });
 
-    $eventList.on('click', function (e) {
-        $.ajax('/api/events', {
-            method: 'get'
-        }).done(function (data, textStatus, jqXHR) {
-
-            // on a success, put the secret into content area
-            $content.text(data);
-
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-
-            // on a failure, put that in the content area
-            $content.text(jqXHR.responseText);
-
-        }).always(function () {
-            console.log("complete");
-        });
-    });
 
     // set up login
     $loginForm.on('submit', function (e) {
@@ -130,6 +118,33 @@ function bindEvents() {
         });
     });
 
+    $events.on('submit', function (e) {
+        // stop the form from submitting, since we're using ajax
+        e.preventDefault();
+
+        // get the data from the inputs
+        var data = $(this).serializeArray();
+
+        // go authenticate
+        $.ajax('/events', {
+            method: 'post',
+            data: data
+        }).done(function (data, textStatus, jqXHR) {
+            console.log(data);
+            ////redirect back home, so that they can log in
+            //window.location.replace('/');
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+
+            // show the user the error
+            $error.text(jqXHR.responseText);
+
+        }).always(function () {
+            console.log("complete");
+        });
+    });
+
+
     // set up register
     $registerForm.on('submit', function (e) {
         // stop the form from submitting, since we're using ajax
@@ -159,5 +174,6 @@ function bindEvents() {
 
     $logout.on('click', function () {
         hideUser();
+        $events.css("display", "none");
     })
 }

@@ -13,7 +13,8 @@ var UserSchema = new mongoose.Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     username: {type: String, required: true, index: {unique: true}},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    events: {type: Array}
 });
 
 /**
@@ -101,7 +102,7 @@ UserSchema.statics.getAuthenticated = function (user, callback) {
 };
 
 
-UserSchema.statics.Create = function (user, callback) {
+UserSchema.Create = function (user, callback) {
     // find a user in Mongo with provided username
     this.findOne({'username': user.username}, function (err, doc) {
         // In case of any error return
